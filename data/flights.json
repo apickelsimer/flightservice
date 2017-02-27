@@ -1,0 +1,93 @@
+{
+   "airport":"SFO",
+   "date": "2017-02-20",
+   "departures":[
+      {
+         "flight_no":"WN4608",
+         "destination":"San Diego",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN1533",
+         "destination":"Santa Ana",
+         "terminal":"T2",
+         "time":1487819429
+      },
+      {
+         "flight_no":"WN4861",
+         "destination":"Los Angels",
+         "terminal":"T2",
+         "time":1487820629000
+      },
+      {
+         "flight_no":"WN4604",
+         "destination":"San Diego",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN4871",
+         "destination":"Los Angels",
+         "terminal":"T2",
+         "time":1487819429
+      },
+      {
+         "flight_no":"WN1621",
+         "destination":"Denever",
+         "terminal":"T2",
+         "time":1487820629
+      }
+   ],
+   "arrivals":[
+      {
+         "flight_no":"WN4607",
+         "from":"San Diego",
+         "gate_no":"A30",
+         "Terminal":"T1",
+         "time":1487980800
+      },
+      {
+         "flight_no":"WN1534",
+         "from":"Santa Ana",
+         "gate_no":"B20",
+         "terminal":"T2",
+         "time":1487819429
+      },
+      {
+         "flight_no":"WN4862",
+         "from":"Los Angels",
+         "gate_no":"A9",
+         "terminal":"T2",
+         "time":1487820629
+      },
+      {
+         "flight_no":"WN4603",
+         "from":"San Diego",
+         "gate_no":"A25",
+         "Terminal":"T1",
+         "time":14879808
+      },
+      {
+         "flight_no":"WN4872",
+         "from":"Los Angels",
+         "gate_no":"B20",
+         "terminal":"T2",
+         "time":1487819429
+      },
+      {
+         "flight_no":"WN1622",
+         "from":"Denever",
+         "gate_no":"A9",
+         "terminal":"T2",
+         "time":1487820629
+      },
+      {
+         "flight_no":"WN1622",
+         "from":"Los Angels",
+         "gate_no":"A9",
+         "terminal":"T2",
+         "time":1487820629
+      }
+   ]
+}

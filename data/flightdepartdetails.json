@@ -1,0 +1,124 @@
+{
+   "airport":"SFO",
+   "departures":[
+      {
+         "flight_no":"WN4608",
+         "destination":"San Diego",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN5612",
+         "destination":"Los Angels",
+         "carrier_type" : "Airbus A320",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN8174",
+         "destination":"Denever",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN4625",
+         "destination":"San Diego",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN48153",
+         "destination":"Chicago",
+         "carrier_type" : "Boeing 777",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"NewYork",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"San Diego",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"San Diego",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"San Diego",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"San Diego",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"San Diego",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"San Diego",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"San Diego",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"San Diego",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":148785818300
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"San Diego",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":148785818300
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"John F. Kennedy International Airport",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":14878581830
+      },
+      {
+         "flight_no":"WN4608",
+         "destination":"John F. Kennedy International Airport",
+         "carrier_type" : "Airbus A330",
+         "terminal":"T2",
+         "time":1487858183
+      }
+  ]
+}

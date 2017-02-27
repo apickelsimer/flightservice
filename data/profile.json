@@ -1,0 +1,55 @@
+{
+"uid" : 34333334,
+"username": "john.smith",
+"firstName": "John",
+"middleName": "Kevin",
+"lastName": "Smith",
+"age": 37,
+"sex": "M",
+"email": "john.smith@gmail.com",
+"photos": [
+ {
+  "value": "https://secure.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
+  "type": "thumbnail"
+ }
+],
+"mailing-address": {
+  "street" : "39663 Sundale Street",
+  "house-no" : "360-32",
+  "city": "Fremont",
+  "state": "California",
+  "zip": 94538,
+  "country" : "USA"
+},
+"permanent-address": {
+  "street" : "39663 Sundale Street",
+  "house-no": "360-32",
+  "city": "Fremont",
+  "state": "California",
+  "zip": 94538,
+  "country" : "USA"
+},
+"phone": 5108852357,
+"alt-phone" : 5106344567,
+"traveller-lists": [
+   {
+     "name" : "Annie Smith",
+     "sex" : "F"
+   },
+   {
+     "name" : "Adrian Smith",
+     "sex" : "M"
+   },
+   {
+     "name" : "Elizabeth Smith",
+     "sex" : "F"
+   },
+   {
+     "name" : "Chris Smith",
+     "sex" : "M"
+   }
+],
+"creationDate" : "2015-07-12",
+"status" : "active",
+"lastModifiedDate" : "2016-02-20"
+}
