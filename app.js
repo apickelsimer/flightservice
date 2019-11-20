@@ -185,5 +185,5 @@ app.get('/service/:service/', function(req, res, next) {
   setTimeout(function () { sendResp(res, service) }, randomLatency());
 });
 
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
