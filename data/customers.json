@@ -1,0 +1,28 @@
+{
+  "customers": [
+    {
+      "customerID": "091939482",
+      "customerName": "Fazio Industries",
+      "contactName": "Alfredo Garcia",
+      "phone": "972-303-4122",
+      "address": "1627 Pacific Ave",
+      "city": "Dallas",
+      "stateProvince": "TX",
+      "postalCode": "75201",
+      "country": "US",
+      "revenue": 999555
+    },
+    {
+      "customerID": "09346982",
+      "customerName": "New Fazio Holdings",
+      "contactName": "Lorenzo Chavez",
+      "phone": "972-343-8232",
+      "address": "1824 Front St",
+      "city": "San Francisco",
+      "stateProvince": "CA",
+      "postalCode": "90210",
+      "country": "US",
+      "revenue": 860555
+    }
+  ]
+}

@@ -4,12 +4,16 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 WeightedRandomSelector = require('./wrs.js');
 
+const request = require('request');
+const NodeCache = require( "node-cache" );
+const myCache = new NodeCache();
+
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-var latencyAnamolyOn;
+var latencyAnamolyOn = false;
 var latencyAnamolyDuration;
 var lastLatencyAnamolyStartTime;
 var lastLatencyAnamolyEndTime;
@@ -28,10 +32,10 @@ function randomLatency() {
 
   var latencyArray = [
     ["10to20",      99],
-    ["30to50",      20],
-    ["50to100",     10],
-    ["100to500",     3],
-    ["500to1000",    2],
+    ["30to50",      5],
+    ["50to100",     1],
+    ["100to500",     2],
+    ["500to1000",    1],
     ["2500to5000",   1]
   ];
 
@@ -79,30 +83,95 @@ function randomLatency() {
   return latency;
 };
 
-function randomResponseCode() {
-  var respCodeArray = [
-    ["200",90],
-    ["400",1],
-    ["401",1],
-    ["403",1],
-    ["404",10],
-    ["500",1],
-    ["503",1]
-  ];
+function randomResponseCode(method) {
+  var respCodeArray
+
+  if (method == "get")
+  {
+    respCodeArray = [
+      ["200",90],
+      ["400",1],
+      ["401",1],
+      ["403",1],
+      ["404",10],
+      ["500",1],
+      ["503",1]
+    ];
+  }
+  else if (method == "put")
+  {
+    respCodeArray = [
+      ["200",90],
+      ["400",0],
+      ["401",0],
+      ["403",0],
+      ["404",10],
+      ["500",5],
+      ["503",0]
+    ];
+  }
+  else if (method == "post")
+  {
+    respCodeArray = [
+      ["201",90],
+      ["400",0],
+      ["401",0],
+      ["403",10],
+      ["404",10],
+      ["500",1],
+      ["503",10]
+    ];
+  }
+  else if (method == "delete")
+  {
+    respCodeArray = [
+      ["200",90],
+      ["400",0],
+      ["401",1],
+      ["403",10],
+      ["404",10],
+      ["500",1],
+      ["503",1]
+    ];
+  }
   var pickedRespCode = new WeightedRandomSelector(respCodeArray);
   var respCode = pickedRespCode.select()[0];
   console.log("response code :" + respCode);
   return respCode;
 };
 
-function sendResp(res, service) {
+function fetchDataGCS(data){
+  var url = 'https://storage.googleapis.com/fazio-259604.appspot.com/' + data + '.json';
+  return new Promise((resolve, reject) => {
+      request(url, function (error, response, body) {
+        resolve(body);
+      });
+  });
+}
+
+async function sendResp(res, data, method) {
   try{
-    var path = './data/' + service + '.json';
-    var a = require(path);
-    var actualRespCode = randomResponseCode()
+    var a;
+    //fetch from local if avil
+    var path = './data/' + data + '.json';
+    if (fs.existsSync(path)) {
+      a = require(path);
+    }
+    else{
+      //fetch from cache
+      a = myCache.get(data);
+      //if not avail fetch from gcs
+      if ( a == undefined ){
+          a = await fetchDataGCS(data);
+          //cache for 60s
+          myCache.set(data, a, 60 );
+      }
+      
+    }
+    var actualRespCode = randomResponseCode(method)
     if (actualRespCode == 200)
     {
-      res.json(a);
+      res.type("json").send(a)
     }
     else
     {
@@ -128,7 +197,25 @@ function addHours(date, hours) {
 
 function checkLatencyAnamoly(){
   var now = new Date();
-  if (nextLatencyAnamolyStartTime == null || now > nextLatencyAnamolyStartTime)
+
+  if (nextLatencyAnamolyStartTime == null)
+  {
+    //set end time to now
+    lastLatencyAnamolyEndTime = now;
+    //set time until next anamoly
+    nextLatencyAnamolyDuration = getRndInteger(12,24)
+    //set next anamoly for a random time later
+    nextLatencyAnamolyStartTime = addHours(lastLatencyAnamolyEndTime, nextLatencyAnamolyDuration);
+
+    console.log("lastLatencyAnamolyStartTime: " + lastLatencyAnamolyStartTime);
+    console.log("latencyAnamolyDuration: " + latencyAnamolyDuration + " minutes");
+    console.log("lastLatencyAnamolyEndTime: " + lastLatencyAnamolyEndTime);
+    console.log("nextLatencyAnamolyDuration: " + nextLatencyAnamolyDuration + " hours")
+    console.log("nextLatencyAnamolyStartTime: " + nextLatencyAnamolyStartTime);
+
+  }
+
+  if (now > nextLatencyAnamolyStartTime)
   {
     console.log("starting anamoly...");
     //start anamoly now
@@ -180,9 +267,34 @@ function checkResponseCodeAnamoly(){
     //TODO
 };
 
-app.get('/service/:service/', function(req, res, next) {
-  var service = req.params.service.toString();
-  setTimeout(function () { sendResp(res, service) }, randomLatency());
+app.get('/:foo/:bar/', function(req, res, next) {
+  var data = req.params.bar.toString();
+  setTimeout(function () { sendResp(res, data, "get") }, randomLatency());
+});
+
+app.put('/:foo/:bar/', function(req, res, next) {
+  var data = req.params.bar.toString();
+  setTimeout(function () { sendResp(res, data, "put") }, randomLatency());
+});
+
+app.post('/:foo/:bar/', function(req, res, next) {
+  var data = req.params.bar.toString();
+  setTimeout(function () { sendResp(res, data, "post") }, randomLatency());
+});
+
+app.delete('/:foo/:bar/', function(req, res, next) {
+  var data = req.params.bar.toString();
+  setTimeout(function () { sendResp(res, data, "delete") }, randomLatency());
+});
+
+app.get('/status', function(request, response) {
+    response.send(200, "up");
+});
+
+// default behavior
+app.all(/^\/.*/, function(request, response) {
+    response.header('Content-Type', 'application/json');
+    response.send(404, '{ "message" : "This is not the server you\'re looking for." }\n');
 });
 
 const port = process.env.PORT || 8080;
