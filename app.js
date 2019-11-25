@@ -31,7 +31,7 @@ function getRndInteger(min, max) {
 function randomLatency() {
 
   var latencyArray = [
-    ["10to20",      99],
+    ["0to20",      99],
     ["30to50",      5],
     ["50to100",     1],
     ["100to500",     2],
@@ -57,8 +57,8 @@ function randomLatency() {
   console.log("latency: " + latency);
 
   switch(latency){
-    case '10to20' :
-         latency = getRndInteger(10,20);
+    case '0to20' :
+         latency = getRndInteger(0,20);
             break;
     case '30to50' :
          latency = getRndInteger(30,50);
@@ -80,6 +80,7 @@ function randomLatency() {
             break;
   }
   console.log("latency set: " + latency);
+
   return latency;
 };
 
@@ -149,7 +150,7 @@ function fetchDataGCS(data){
   });
 }
 
-async function sendResp(res, data, method) {
+async function sendResp(res, data, method, simulation) {
   try{
     var a;
     //fetch from local if avil
@@ -168,14 +169,21 @@ async function sendResp(res, data, method) {
       }
       
     }
-    var actualRespCode = randomResponseCode(method)
-    if (actualRespCode == 200)
+    if (simulation == true)
     {
-      res.type("json").send(a)
+      var actualRespCode = randomResponseCode(method)
+      if (actualRespCode == 200)
+      {
+        res.type("json").send(a);
+      }
+      else
+      {
+        res.sendStatus(actualRespCode);
+      }
     }
     else
     {
-      res.sendStatus(actualRespCode);
+      res.type("json").send(a);
     }
   }
   catch(e)
@@ -269,7 +277,13 @@ function checkResponseCodeAnamoly(){
 
 app.get('/:foo/:bar/', function(req, res, next) {
   var data = req.params.bar.toString();
-  setTimeout(function () { sendResp(res, data, "get") }, randomLatency());
+
+  if (req.header('x-simulation') == "true"){
+    setTimeout(function () { sendResp(res, data, "get", true ) }, randomLatency());
+  }
+  else{
+    sendResp(res, data, "get", false );
+  }
 });
 
 app.put('/:foo/:bar/', function(req, res, next) {
@@ -297,5 +311,5 @@ app.all(/^\/.*/, function(request, response) {
     response.send(404, '{ "message" : "This is not the server you\'re looking for." }\n');
 });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
